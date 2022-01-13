@@ -1,15 +1,15 @@
-# docker
+# http-munki
 
-Docker service definitions for docker-compose.
+Docker service definitions for pi-hole dns.
 
-To update a docker container change to the desired sub directory and run following command:
+You have to create a file `env.txt` in this directory containg one statement:
 
 ```
-docker-compose up -d
+WEBPASSWORD=mySecretPassword
 ```
-
-Some compose definition folders contains an install script to use an `env.txt` file with environment definitions:
 
 ```
 ./install.sh
 ```
+
+see https://hub.docker.com/r/linuxserver/rsnapshot
