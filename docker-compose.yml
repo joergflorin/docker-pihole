@@ -6,8 +6,8 @@ services:
     container_name: pihole
     image: pihole/pihole:latest
     ports:
-      - "53:53/tcp"
-      - "53:53/udp"
+      - "${LOCAL_DNS_IP}:53:53/tcp"
+      - "${LOCAL_DNS_IP}:53:53/udp"
       - "67:67/udp"
       - "8766:80/tcp"
     environment:
@@ -17,9 +17,24 @@ services:
     volumes:
       - './etc-pihole:/etc/pihole'
       - './etc-dnsmasq.d:/etc/dnsmasq.d'
-      - './etc-resolv.conf:/etc/resolv.conf'
     # Recommended but not required (DHCP needs NET_ADMIN)
     #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
     cap_add:
       - NET_ADMIN
     restart: unless-stopped
+    labels:
+      traefik.enable: true
+
+      traefik.http.routers.pihole.rule: ${TRAEFIK_RULE}
+      traefik.http.routers.pihole.entrypoints: web
+      traefik.http.routers.pihole.tls: false
+      traefik.http.routers.pihole.service: pihole
+      traefik.http.services.pihole.loadbalancer.server.port: 80
+
+      traefik.docker.network: web
+    networks:
+      - web
+
+networks:
+    web:
+       external: true
