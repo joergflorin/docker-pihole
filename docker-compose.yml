@@ -13,6 +13,12 @@ services:
     environment:
       TZ: 'Europe/Berlin'
       WEBPASSWORD: '${WEBPASSWORD}'
+    # Limit memory consumption and prevent swapping
+    deploy:
+      resources:
+        limits:
+          memory: 200m
+    memswap_limit: 200m    
     # Volumes store your data between container upgrades
     volumes:
       - './etc-pihole:/etc/pihole'
