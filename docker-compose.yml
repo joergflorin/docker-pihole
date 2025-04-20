@@ -13,6 +13,7 @@ services:
     environment:
       TZ: 'Europe/Berlin'
       WEBPASSWORD: '${WEBPASSWORD}'
+      FTLCONF_misc_dnsmasq_lines: '${DNS_MASQ_LINES}'
     # Limit memory consumption and prevent swapping
     deploy:
       resources:
